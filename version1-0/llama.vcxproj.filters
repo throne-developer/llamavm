@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="base">
+      <UniqueIdentifier>{af403680-04be-4e22-b013-8c9e7f9409e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code">
+      <UniqueIdentifier>{67348d2d-d143-4084-9e17-e12d07ff94df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{104b70fe-b59c-45a5-afe3-48ac165a41b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vm">
+      <UniqueIdentifier>{dbab08ca-0a59-4125-b664-e5aaaa6148d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{36e27404-48d3-4b52-b5e0-292fca8a1f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="testcase">
+      <UniqueIdentifier>{38c02761-09da-4386-a767-79138fed9faa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testcase\expr.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="testcase\function.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="testcase\ifwhile.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="testcase\sort_example.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="testcase\table.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="testcase\var.lua">
+      <Filter>testcase</Filter>
+    </None>
+    <None Include="test.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\base\dump.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\lobject.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\memory.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\basedef.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\code\lex.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="src\code\gram.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\builtin.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vm\vm.h">
+      <Filter>vm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vm\gc.h">
+      <Filter>vm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\table.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\test.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\state.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\const.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\common.h">
+      <Filter>base</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\base\dump.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\lobject.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\memory.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\code\gram_expr.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="src\code\gram_func.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="src\code\lex.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="src\code\gram.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="src\code\gram_cond.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lib\builtin.cpp">
+      <Filter>lib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vm\vm.cpp">
+      <Filter>vm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vm\gc.cpp">
+      <Filter>vm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\table.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\test\test.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\test_gc.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\state.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\const.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\common.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
