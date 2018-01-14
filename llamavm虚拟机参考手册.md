@@ -70,23 +70,23 @@ llamavm完全基于lua语法实现，已经掌握lua语法的可以很轻松理�
 |upvalue|内部函数引用的外部函数的局部变量|
 
 示例如下：
-```python
-# a 和 b 为全局变量
+```lua
+-- a 和 b 为全局变量
 a = 0
 b = a + 1
 ```
 
-```python
-# c 和 d 为局部变量
+```lua
+-- c 和 d 为局部变量
 local c = 0
 local d = c + 1
 ```
 
 ```lua
 function f1()
-  local e = 0  -- e 为局部变量
-  function f2(f)  -- f 为局部变量
-    return e+f  -- e 为外部函数 f1 的局部变量，也称upvalue
+  local e = 0  -- e 为局部变量
+  function f2(f)  -- f 为局部变量
+    return e+f  -- e 为外部函数 f1 的局部变量，也称upvalue
   end
 end
 ```
@@ -101,16 +101,16 @@ end
 |upvalue|**llamavm尚未实现**|
 
 示例如下：
-```python
-a = 0  # 全局变量
+```lua
+a = 0  -- 全局变量
 function f1()
-  local b = 1  # b 仅在函数f1内部有效
-  if a > 0 then  # 这里为全局 a
-    local a = 1  # 定义局部变量a， 全局a 暂时失效
-    b = a  # 这里为局部 a
+  local b = 1  -- b 仅在函数f1内部有效
+  if a > 0 then  -- 这里为全局 a
+    local a = 1  -- 定义局部变量a， 全局a 暂时失效
+    b = a  -- 这里为局部 a
   end
   
-  b = a  # 这里又恢复为全局 a
+  b = a  -- 这里又恢复为全局 a
 end
 ```
 
@@ -137,12 +137,12 @@ end
 |or|返回第一个true表达式，若无则返回最后一个表达式|
 
 示例如下：
-```python
-a = 1 and 2 and 3  # 返回第一个false表达式，结果为3
-b = 1 or 2 or 3  # 返回第一个true表达式，结果为1
+```lua
+a = 1 and 2 and 3  -- 返回第一个false表达式，结果为3
+b = 1 or 2 or 3  -- 返回第一个true表达式，结果为1
 
-# 第一步 1 and 2，返回第一个false表达式，结果为2
-# 第二部 2 or 3， 返回第一个true表达式，结果为2
+-- 第一步 1 and 2，返回第一个false表达式，结果为2
+-- 第二部 2 or 3， 返回第一个true表达式，结果为2
 c = 1 and 2 or 3 
 ```
 
@@ -151,7 +151,7 @@ c = 1 and 2 or 3
 
 #### **..字符串拼接**
 示例代码：
-```python
+```lua
 a= "this is" .. " a project"
 ```
 
@@ -178,13 +178,13 @@ a= "this is" .. " a project"
 和多数语言保持一致，while循环不要忘记增加计数器的值。
 
 #### **for循环**
-``` 
+```lua
 for i=1,10 do ... end
 等同于
 for (int i=1; i<=10; i++) { ... }
 ```
 完全的for循环定义为：
-```
+```lua
 for i=初始值, 上限值, 递增值 do ... end
 ```
 
@@ -195,3 +195,142 @@ for i=初始值, 上限值, 递增值 do ... end
 官方lua实现**不支持continue**关键字，并提供repeat/until语句模拟实现continue效果，这一点被广大用户所诟病。
 
 llamavm **支持continue**语句，并且**不支持repeat/until**语句，这一点更符合广告用户的使用习惯。
+
+continue和break语句必须为**语句块的最后一条语句**。如下所示：
+```lua
+for i=1,100 do
+  if i>50 then
+    break  -- break 不是if语句块的最后一条语句，编译会报错
+    i=1
+  end
+end
+```
+
+
+### （2.4）函数
+
+#### **函数定义**
+
+|-|说明|
+|-|-|
+|参数列表|无需指定类型，所有参数为局部变量|
+|返回值|可以有**任意多个**返回值，return语句必须为语句块的**最后一条语句**|
+|函数名|```function add(a,b)``` 等同于 ```add = function(a,b)```|
+
+示例代码：
+```lua
+function add(a, b, c)
+  local sum = a + b + c
+  return sum
+end
+```
+
+**嵌套函数**
+
+示例代码：
+```lua
+function add(a, b, c, d)
+  function addtwo(x, y) return x+y end
+  
+  local sum = addtwo(a, b) + addtwo(c, d)
+  return sum
+end
+```
+
+#### **函数调用**
+
+|-|说明|
+|-|-|
+|参数列表|根据函数定义**自适应**，多传的参数丢弃，少传的参数为nil|
+|返回值|根据接收方需要的数量**自适应**，多返回的丢失，少返回的为nil|
+|递归调用|支持|
+
+示例代码
+```lua
+function add(a, b) return a+b end
+
+function sum(a, b, c)
+  return add(c, add(a, b))
+end
+
+e = sum(100, 200, 300)
+```
+
+### （2.5）多重自适应赋值
+
+|使用场景|说明|
+|-|-|
+|多变量赋值|根据等号左边的变量数，调整右边的表达式数量|
+|函数传参|根据函数参数个数，调整传参的个数|
+|函数返回值|根据接收方的个数，调整返回值个数|
+
+#### **多变量赋值**
+
+**情景1-左右两边数量相等**
+
+```lua
+-- 一对一赋值
+a, b = 100, 200
+local c, d = 300, 400
+a, b, c, d = d, c, b, a
+
+-- 先计算完右边的值，再赋值给左边
+e, f = 1, e  -- e结果为1，f结果为nil
+```
+
+**情景2-左右两边不相等**
+
+```lua
+-- 左边多余的变量赋值为nil
+a, b, c = 1, 2
+
+-- 丢弃右边多余的值
+a = 1, 2
+```
+
+#### **函数返回值**
+
+**情景1-函数调用作为最后一个表达式**
+
+```lua
+function fun(a, b, c) 
+  return a+100, b+100, c+100 
+end
+
+-- 根据接收方的数量自适应返回值数量
+a2,b2 = fun(1, 2, 3)  -- 返回值数量为2
+e2,f2 = 5, fun(1,2,3)  -- 返回值数量为1
+```
+
+**情景2-函数调用不是最后一个表达式**
+
+```lua
+-- 只有1个返回值
+c2,d2 = fun(1,2,3), 4
+```
+
+### （2.5）table数据结构
+
+|初始化|示例|
+|-|-|
+|空table|```{}```|
+|仅有数组部分|```{1, 2}```|
+|仅有哈希部分|```{a=1, ['b']=2, [1+2]=3}```|
+|数组加哈希|```{1,2; a=1, ['b']=2, [1+2]=3}```， 两部分用分号分隔|
+
+示例代码：
+```lua
+function member(name, score) 
+  return {["name"]=name, ["score"]=score}
+end
+
+members = {
+  member("lily", 80),
+  member("tom", 90),
+  member("adam", 100),
+  member("baby", 75),
+}
+
+print(members[1].name, members[1].score)
+```
+
