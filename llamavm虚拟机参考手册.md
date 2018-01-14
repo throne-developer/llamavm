@@ -82,11 +82,11 @@ local c = 0
 local d = c + 1
 ```
 
-```python
+```lua
 function f1()
-  local e = 0  # e 为局部变量
-  function f2(f)  # f 为局部变量
-    return e+f  # e 为外部函数 f1 的局部变量，也称upvalue
+  local e = 0  -- e 为局部变量
+  function f2(f)  -- f 为局部变量
+    return e+f  -- e 为外部函数 f1 的局部变量，也称upvalue
   end
 end
 ```
