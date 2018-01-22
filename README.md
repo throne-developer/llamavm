@@ -1,5 +1,7 @@
 # llama虚拟机
 
+**详细文档参见 Wiki**
+
 ### （1）编译方法
 ##### Windows系统
 1. 安装Visual Studio 2013开发工具
